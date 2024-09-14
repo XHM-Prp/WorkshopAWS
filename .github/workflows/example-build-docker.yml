@@ -19,10 +19,6 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    # - name: Log in to Amazon ECR
-    #   id: login-ecr
-    #   uses: aws-actions/amazon-ecr-login@v2
-
     - name: Configure AWS credentials with session token
       uses: aws-actions/configure-aws-credentials@v2
       with:
@@ -31,13 +27,15 @@ jobs:
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # Use the session token
         aws-region: us-east-1 # Change to your AWS region
 
+    - name: Log in to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
     - name: Build, tag, and push Docker image
       env:
         ECR_URI: "310156517182.dkr.ecr.us-east-1.amazonaws.com/workshop"
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        yarn --frozen-lockfile
-        yarn nx build api-flowaccount-workshop
         docker build -t $ECR_URI:$IMAGE_TAG .
         docker push $ECR_URI:$IMAGE_TAG
 
