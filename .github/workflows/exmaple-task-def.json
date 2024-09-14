@@ -1,0 +1,31 @@
+{
+    "requiresCompatibilities": [
+       "FARGATE"
+   ],
+   "containerDefinitions": [
+       {
+           "name": "app-container",
+           "image": "310156517182.dkr.ecr.us-east-1.amazonaws.com/workshop:latest",
+           "cpu": 512,
+           "memoryReservation": 512,
+           "portMappings": [
+               {
+                   "containerPort": 8080,
+                   "hostPort": 3000,
+                   "protocol": "tcp"
+               }
+           ],
+           "essential": true,
+           "environment": [],
+           "mountPoints": [],
+           "volumesFrom": []
+       }
+   ],
+   "taskRoleArn": "arn:aws:iam::310156517182:role/LabRole",
+   "executionRoleArn": "arn:aws:iam::310156517182:role/LabRole",
+   "family": "web-app-task-def",
+   "networkMode": "awsvpc",
+   "volumes": [],
+   "placementConstraints": [],
+   "tags": []
+}
